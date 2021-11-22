@@ -156,7 +156,7 @@
     const trace = document.querySelector("#trace");
     const gerror = document.querySelector("#gerror");
 
-    const label = '1 2 3';
+    const label = '';
     
     log.addEventListener('click', c_log)
     error.addEventListener('click', c_error)
@@ -205,9 +205,7 @@
       console.dirxml(dirxml);
     }
     function c_gstart(){  
-      
       console.group(label);
-      console.info('1');
     }
     function c_gend(){  
       console.groupEnd(label);
