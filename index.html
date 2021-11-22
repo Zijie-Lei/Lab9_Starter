@@ -69,39 +69,189 @@
     </form>
 
     <section id="error-btns">
-      <button>Console Log</button>
-      <button>Console Error</button>
-      <button>Console Count</button>
-      <button>Console Warn</button>
-      <button>Console Assert</button>
-      <button>Console Clear</button>
-      <button>Console Dir</button>
-      <button>Console dirxml</button>
-      <button>Console Group Start</button>
-      <button>Console Group End</button>
-      <button>Console Table</button>
-      <button>Start Timer</button>
-      <button>End Timer</button>
-      <button>Console Trace</button>
-      <button>Trigger a Global Error</button>
+      <button id="log">Console Log</button>
+      <button id="error">Console Error</button>
+      <button id="count">Console Count</button>
+      <button id="warn">Console Warn</button>
+      <button id="assert">Console Assert</button>
+      <button id="clear">Console Clear</button>
+      <button id="dir">Console Dir</button>
+      <button id="dirxml">Console dirxml</button>
+      <button id="gstart">Console Group Start</button>
+      <button id="gend">Console Group End</button>
+      <button id="table">Console Table</button>
+      <button id="tstart">Start Timer</button>
+      <button id="tend">End Timer</button>
+      <button id="trace">Console Trace</button>
+      <button id="gerror">Trigger a Global Error</button>
     </section>
   </main>
 
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
   <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "1ae6e1d7377a44939d1e00db77c263ac"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+  </script>
+  
+                        
+  <script>
+    class someCustomError extends Error {
+      constructor(message) {
+        super(message); // (1)
+        this.name = "someCustomError"; // (2)
+      }
+    }
+
+    function customError(){
+      throw new someCustomError("this is some Custom Error!");
+    }
+
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
       e.preventDefault();
       let output = document.querySelector('output');
+      
       let firstNum = document.querySelector('#first-num').value;
       let secondNum = document.querySelector('#second-num').value;
       let operator = document.querySelector('#operator').value;
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      try{
+        output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+        
+      } catch (err) {
+        
+      }
+      try{
+        customError();
+      } catch (err) {
+        alert(err);
+      }
+      
     });
+
+    
+    
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
 
     // Start your code here
     // You may move this JS to another file if you wish
+
+    
+
+    const log = document.querySelector("#log");
+    const error = document.querySelector("#error");
+    const count = document.querySelector("#count");
+    const warn = document.querySelector("#warn");
+    const assert = document.querySelector("#assert");
+    const clear = document.querySelector("#clear");
+    const dir = document.querySelector("#dir");
+    const dirxml = document.querySelector("#dirxml");
+    const gstart = document.querySelector("#gstart");
+    const gend = document.querySelector("#gend");
+    const table = document.querySelector("#table");
+    const tstart = document.querySelector("#tstart");
+    const tend = document.querySelector("#tend");
+    const trace = document.querySelector("#trace");
+    const gerror = document.querySelector("#gerror");
+
+    const label = '1 2 3';
+    
+    log.addEventListener('click', c_log)
+    error.addEventListener('click', c_error)
+    count.addEventListener('click', c_count)
+    warn.addEventListener('click', c_warn)
+    assert.addEventListener('click', c_assert)
+    clear.addEventListener('click', c_clear)
+    dir.addEventListener('click', c_dir)
+    dirxml.addEventListener('click', c_dirxml)
+    gstart.addEventListener('click', c_gstart)
+    gend.addEventListener('click', c_gend)
+    table.addEventListener('click', c_table)
+    tstart.addEventListener('click', c_tstart)
+    tend.addEventListener('click', c_tend)
+    trace.addEventListener('click', c_trace)
+    gerror.addEventListener('click', c_gerror)
+    window.addEventListener('error', global_error)
+
+    function c_log(){  
+      console.log("Console Log Demo")
+    }
+
+    function c_error(){  
+      console.error("Console Log Error")
+    }
+
+    function c_count(){  
+      console.count()
+    }
+    function c_warn(){  
+      console.warn('Console Log Warn')
+    }
+    function c_assert(){  
+      const x = 3;
+      const y = 2;
+      const reason = 'x is expected to be less than y';
+      console.assert(x < y, {x, y, reason});
+    }
+    function c_clear(){  
+      console.clear()
+    }
+    function c_dir(){  
+      console.dir(document.head);
+    }
+    function c_dirxml(){  
+      console.dirxml(dirxml);
+    }
+    function c_gstart(){  
+      
+      console.group(label);
+      console.info('1');
+    }
+    function c_gend(){  
+      console.groupEnd(label);
+    }
+    function c_table(){  
+      console.table([
+        {
+          first: '1',
+          last: '2',
+        }
+      ]);
+    }
+    function c_tstart(){  
+      console.time();
+      for (var i = 0; i < 100; i++) {
+        let a = i;
+      }
+    }
+    function c_tend(){
+      console.timeEnd();
+    }
+    function c_trace(){
+      const rah = () => { ww(); };
+      const ww = () => { ee(); };
+      const ee = () => { rr(); };
+      const rr = () => { console.trace(); };
+      rah();
+    }
+    function c_gerror(){
+      const ra = 1;
+      ra = 2;
+    }
+
+    function global_error(){
+      console.log("this is an uncaught error");
+    }
+
+    
+
+    
+
+
+
+
   </script>
 </body>
 
